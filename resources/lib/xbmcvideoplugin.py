@@ -42,9 +42,10 @@ class XBMCVideoPlugin(object):
     '''This is a class to help handle routine tasks for a video plugin
     such as adding directories and/or movies to the UI.'''
     
-    def __init__(self, modes, default_handler=None, plugin_name='XBMC Video Plugin'):
+    def __init__(self, modes, plugin_id=None, default_handler=None, plugin_name='XBMC Video Plugin'):
+        self.plugin_id = plugin_id
         self.plugin_name = plugin_name
-        self.addon = xbmcaddon.Addon(id=os.path.basename(os.getcwd()))
+        self.addon = xbmcaddon.Addon(id=self.plugin_id)
         self.dp = None
         #set the default mode, when the plugin is first called, there will be no qs arguments
         #use user_specified default_handler, else pick the first handler in the modes list

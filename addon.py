@@ -21,7 +21,7 @@ Watch movies found on http://www.classiccinemaonline.com
 author:         Jonathan Beluch
 project url:    https://github.com/jbeluch/xbmc-classic-cinema
 git url:        git://github.com/jbeluch/xbmc-classic-cinema.git
-version:        0.7
+version:        0.7.1
 
 Please report any issues at https://github.com/jbeluch/xbmc-classic-cinema/issues
 '''
@@ -40,6 +40,7 @@ except ImportError:
     import simplejson as json
 
 PLUGIN_NAME = 'Classic Cinema'
+PLUGIN_ID = 'plugin.video.classiccinema'
 
 class BasePluginHandler(XBMCVideoPluginHandler):
     base_url = 'http://www.classiccinemaonline.com'
@@ -182,6 +183,7 @@ class PlayMovieHandler(BasePluginHandler):
 
 if __name__ == '__main__':
     settings = {'default_handler': DisplayGenresHandler,
+                'plugin_id': PLUGIN_ID, 
                 'plugin_name': PLUGIN_NAME}
     app = XBMCVideoPlugin(
         [('0', DisplayGenresHandler),
