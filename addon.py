@@ -1,6 +1,7 @@
 #!/usr/bin/env python
-from resources.lib.plugin import XBMCSwiftPlugin, download_page
-from resources.lib.getflashvideo import get_flashvideo_url
+from resources.lib.xbmcswift.plugin import XBMCSwiftPlugin
+from resources.lib.xbmcswift.common import download_page
+from resources.lib.xbmcswift.getflashvideo import get_flashvideo_url
 from BeautifulSoup import BeautifulSoup as BS, SoupStrainer as SS
 from urlparse import urljoin
 import re

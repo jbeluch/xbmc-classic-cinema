@@ -1,10 +1,10 @@
 #!/usr/bin/env python
-from plugin import download_page, parse_qs
+from common import download_page, parse_qs, parse_url_qs, unhex
 import urllib
 from BeautifulSoup import BeautifulSoup as BS, SoupStrainer as SS
 import urlparse
 import re
-from xbmccommon import parse_url_qs, unhex
+#from xbmccommon import parse_url_qs, unhex
 try:
     import json
 except ImportError:

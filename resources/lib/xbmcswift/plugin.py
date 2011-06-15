@@ -15,13 +15,6 @@ import xbmcaddon
 
 URLRule = namedtuple('URLRule', 'endpoint, url_format, pattern, view_func, keywords, name, options')
 
-def download_page(url, data=None):
-    # Must check cache using httplib2 here!
-    u = urllib2.urlopen(url, data)
-    r = u.read()
-    u.close()
-    return r
-
 def parse_qs(qs):
     '''Takes a query string and returns a {} with key/vals.  If more than
     one instance of a key is specified, the last value will be returned.'''
