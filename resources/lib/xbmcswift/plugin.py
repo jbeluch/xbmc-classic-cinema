@@ -3,6 +3,7 @@ import urllib2
 import sys
 from urlparse import urlparse, urlunsplit
 from urllib import quote_plus, unquote_plus, urlencode
+from common import parse_qs
 try:
     from collections import namedtuple
 except ImportError:
@@ -14,22 +15,6 @@ import xbmcplugin
 import xbmcaddon
 
 URLRule = namedtuple('URLRule', 'endpoint, url_format, pattern, view_func, keywords, name, options')
-
-def parse_qs(qs):
-    '''Takes a query string and returns a {} with key/vals.  If more than
-    one instance of a key is specified, the last value will be returned.'''
-    if qs is None or len(qs) == 0:
-        return {}
-
-    pairs = [s2 for s1 in qs.split('&') for s2 in s1.split(';')]
-    r ={} 
-
-    for pair in pairs:
-        parts = pair.split('=', 1)
-        if len(parts) != 2:
-            raise ValueError, 'bad query field: %r' % (pair)
-        r[unquote_plus(parts[0])] = unquote_plus(parts[1])
-    return r
 
 def make_url_rule(rule, endpoint, view_func, name=None, **options):
     # Get keywords first. These are the positional vars in <> in the URL
