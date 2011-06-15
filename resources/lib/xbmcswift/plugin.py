@@ -1,3 +1,18 @@
+# Copyright 2011 Jonathan Beluch. 
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
 import re
 import urllib2
 import sys
@@ -127,14 +142,14 @@ class XBMCSwiftPlugin(object):
         self.netloc = url[1]
         self.path = url[2]
 
-    def get_setting(self, key, pickle=True):
-        if pickle:
-            return unpickle(self._plugin.getSetting(key))
+    def get_setting(self, key, pickled_value=True):
+        if pickled_value:
+            return pickle.loads(self._plugin.getSetting(key))
         return self._plugin.getSetting(key)
 
-    def set_setting(self, key, val, pickle=True):
-        if pickle:
-            return pickle(self._plugin.setSetting(key, val))
+    def set_setting(self, key, val, pickled_value=True):
+        if pickled_value:
+            return self._plugin.setSetting(key, pickle.dumps(val))
         return self._plugin.setSetting(key, val)
 
     def add_url_rule(self, rule, endpoint=None, view_func=None, name=None, default=False, **options):

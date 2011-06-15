@@ -1,14 +1,35 @@
-#!/usr/bin/env python
+# Copyright 2011 Jonathan Beluch. 
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
 from common import download_page, parse_qs, parse_url_qs, unhex
 import urllib
 from BeautifulSoup import BeautifulSoup as BS, SoupStrainer as SS
 import urlparse
 import re
-#from xbmccommon import parse_url_qs, unhex
 try:
     import json
 except ImportError:
     import simplejson as json
+
+'''
+This module is meant to abstract the parsing of flash video URLs out of plugins.
+
+Each class represents a video site and should implement a @staticmethod named
+get_flashvide_url. The method should take 1 argument, a string, usually corresponding
+to HTML source code. The method should return a url for a video resource or None if
+the page wasn't able to be parsed.
+'''
 
 def get_flashvideo_url(src=None, url=None):
     if not url and not src:
