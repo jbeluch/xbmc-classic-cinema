@@ -1,6 +1,6 @@
 Classic Cinema Video Addon for XBMC
 ====================================
-version 0.8.1
+version 0.9.0
 
 ### Summary
 Watch videos from http://www.classiccinemaonline.com
