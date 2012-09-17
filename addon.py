@@ -56,7 +56,9 @@ def show_genres(path):
     items = [{'label': a.string,
               'path': plugin.url_for('show_movies', url=full_url(a['href'])),
              } for a in a_tags]
-    return items
+
+    sorted_items = sorted(items, key=operator.itemgetter('label'))
+    return sorted_items
 
 
 @plugin.route('/movies/<url>/')
