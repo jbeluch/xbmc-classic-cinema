@@ -1,27 +1,3 @@
-# Copyright 2011 Jonathan Beluch. 
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <http://www.gnu.org/licenses/>.
-from common import download_page, parse_qs, parse_url_qs, unhex
-import urllib
-from BeautifulSoup import BeautifulSoup as BS, SoupStrainer as SS
-import urlparse
-import re
-try:
-    import json
-except ImportError:
-    import simplejson as json
-
 '''
 This module is meant to abstract the parsing of flash video URLs out of plugins.
 
@@ -30,6 +6,13 @@ get_flashvide_url. The method should take 1 argument, a string, usually correspo
 to HTML source code. The method should return a url for a video resource or None if
 the page wasn't able to be parsed.
 '''
+import urllib
+import re
+import json
+import urlparse
+from BeautifulSoup import BeautifulSoup as BS, SoupStrainer as SS
+from xbmcswift2 import download_page, unhex
+
 
 def get_flashvideo_url(src=None, url=None):
     if not url and not src:
@@ -43,17 +26,32 @@ def get_flashvideo_url(src=None, url=None):
         flash_url = GoogleVideo.get_flashvideo_url(src)
     elif src.find('flowplayer') > 0:
         flash_url = ArchiveVideo.get_flashvideo_url(src)
+    elif src.find('youtube') > 0:
+        flash_url = YouTube.get_flashvideo_url(src)
     else:
         print 'no handler implementd for this url.'
 
     return flash_url
+
+
+
+class YouTube(object):
+    @staticmethod
+    def get_flashvideo_url(src):
+        # Check for youtube
+        yt_ptn = re.compile(r'http://www.youtube.com/embed/(.+?)\?')
+        match = yt_ptn.search(src)
+        if match:
+            return 'plugin://plugin.video.youtube/?action=play_video&videoid=%s' % match.group(1)
+        return None
+
 
 class GoogleVideo(object):
     @staticmethod
     def get_flashvideo_url(src):
         embed_tags = BS(src, parseOnlyThese=SS('embed'))
         url = embed_tags.find('embed')['src']
-        docid = parse_url_qs(url).get('docid')
+        docid = urlparse.parse_qs(url.split('?', 1)[1]).get('docid')[0]
         url = 'http://video.google.com/videoplay?docid=%s&hl=en' % docid
 
         #load the googlevideo page for a given docid or googlevideo swf url
@@ -68,8 +66,9 @@ class GoogleVideo(object):
         # videoUrl\x3dhttp -> videoUrl=http
         previewurl = unhex(previewurl)
         #parse querystring and return the videoUrl
-        params = parse_url_qs(previewurl)
-        return urllib.unquote_plus(params['videoUrl'])
+        params = urlparse.parse_qs(previewurl.split('?', 1)[1])
+        return urllib.unquote_plus(params['videoUrl'][0])
+
 
 class ArchiveVideo(object):
     @staticmethod
@@ -99,4 +98,3 @@ class ArchiveVideo(object):
         base_url = obj['clip']['baseUrl']
         path = obj['playlist'][1]['url'] 
         return urlparse.urljoin(base_url, path)
-
