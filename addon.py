@@ -1,12 +1,19 @@
-#!/usr/bin/env python
-from BeautifulSoup import BeautifulSoup as BS, SoupStrainer as SS
-from urlparse import urljoin
+'''
+    Classic Cinema Addon for XBMC
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+    Watch films from http://classiccinemaonline.com.
+
+    :copyright: (c) 2012 by Jonathan Beluch
+    :license: GPLv3, see LICENSE.txt for more details.
+'''
 import re
+from urlparse import urljoin
 from urllib import urlencode
-
+from BeautifulSoup import BeautifulSoup as BS, SoupStrainer as SS
 from xbmcswift2 import Plugin, download_page
-
 from resources.lib.getflashvideo import get_flashvideo_url
+
 
 plugin = Plugin('Classic Cinema', 'plugin.video.classiccinema', __file__)
 
@@ -49,8 +56,9 @@ def show_genres(path):
 @plugin.route('/movies/<url>/')
 def show_movies(url):
     '''Displays available movies for a given url.'''
-    # Need to POST to url in order to get back all results and not be limited to 10.
-    # Currently can hack using only the 'limit=0' querystring, other params aren't needed.
+    # Need to POST to url in order to get back all results and not be limited
+    # to 10. Currently can hack using only the 'limit=0' querystring, other
+    # params aren't needed.
     data = {'limit': '0'}
     src = download_page(url, urlencode(data))
     html = BS(src, convertEntities=BS.HTML_ENTITIES)
@@ -60,7 +68,7 @@ def show_movies(url):
     items = [{'label': tr.a.string,
               'path': plugin.url_for('show_movie', url=full_url(tr.a['href'])),
               'is_playable': True,
-              'info': {'title': tr.a.string, },
+              'info': {'title': tr.a.string},
              } for tr in trs]
     return plugin.add_items(items)
 
@@ -72,6 +80,7 @@ def show_movie(url):
     url = get_flashvideo_url(src=src)
     plugin.log.info('Resolved url to %s' % url)
     return plugin.set_resolved_url(url)
+
 
 if __name__ == '__main__':
     plugin.run()
