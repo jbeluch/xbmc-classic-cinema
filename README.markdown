@@ -1,6 +1,5 @@
 Classic Cinema Video Addon for XBMC
 ====================================
-version 0.9.0
 
 ### Summary
 Watch videos from http://www.classiccinemaonline.com
@@ -36,8 +35,6 @@ From the about page:
 If you are using XBMC Dharma and above, you should be able to install
 this plugin through the official addons installer within XBMC. 
 
-### To Do 
-* Add optional pagination for genres with a large number of movies
-* Group serials (tv shows)
 
-Contact: <jon@jonathanbeluch.com> or jbel on [http://forum.xbmc.org](http://forum.xbmc.org)
+### Contact
+<web@jonathanbeluch.com> or jbel on [http://forum.xbmc.org](http://forum.xbmc.org)
