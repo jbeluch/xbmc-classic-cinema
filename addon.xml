@@ -10,6 +10,7 @@
   </extension>
   <extension point="xbmc.addon.metadata">
     <platform>all</platform>
+    <language></language>
     <summary>Classic Cinema Video Addon</summary>
     <description>Watch online video movies found at http://www.classiccinemaonline.com.  The site aggregates old movies and tv shows found on google video and archive.org.</description>
     <disclaimer/>
