@@ -7,20 +7,20 @@
     :copyright: (c) 2012 by Jonathan Beluch
     :license: GPLv3, see LICENSE.txt for more details.
 '''
-import re
 import operator
 from urlparse import urljoin
 from urllib import urlencode
-from BeautifulSoup import BeautifulSoup as BS, SoupStrainer as SS
+from BeautifulSoup import BeautifulSoup as BS
 from xbmcswift2 import Plugin, download_page
 from resources.lib.getflashvideo import get_flashvideo_url
 
 
 plugin = Plugin('Classic Cinema', 'plugin.video.classiccinema', __file__)
-
-
 BASE_URL = 'http://www.classiccinemaonline.com'
+
+
 def full_url(path):
+    '''Returns a full url for the given path.'''
     return urljoin(BASE_URL, path)
 
 
@@ -55,7 +55,7 @@ def show_genres(path):
     a_tags = html.findAll('a', {'class': 'category'})
     items = [{'label': a.string,
               'path': plugin.url_for('show_movies', url=full_url(a['href'])),
-             } for a in a_tags]
+              } for a in a_tags]
 
     sorted_items = sorted(items, key=operator.itemgetter('label'))
     return sorted_items
@@ -77,7 +77,7 @@ def show_movies(url):
               'path': plugin.url_for('show_movie', url=full_url(tr.a['href'])),
               'is_playable': True,
               'info': {'title': tr.a.string.strip()},
-             } for tr in trs]
+              } for tr in trs]
 
     sorted_items = sorted(items, key=operator.itemgetter('label'))
     return sorted_items
