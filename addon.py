@@ -8,6 +8,7 @@
     :license: GPLv3, see LICENSE.txt for more details.
 '''
 import re
+import operator
 from urlparse import urljoin
 from urllib import urlencode
 from BeautifulSoup import BeautifulSoup as BS, SoupStrainer as SS
@@ -55,7 +56,7 @@ def show_genres(path):
     items = [{'label': a.string,
               'path': plugin.url_for('show_movies', url=full_url(a['href'])),
              } for a in a_tags]
-    return plugin.add_items(items)
+    return items
 
 
 @plugin.route('/movies/<url>/')
@@ -70,12 +71,14 @@ def show_movies(url):
 
     trs = html.findAll('tr', {'class': lambda c: c in ['even', 'odd']})
 
-    items = [{'label': tr.a.string,
+    items = [{'label': tr.a.string.strip(),
               'path': plugin.url_for('show_movie', url=full_url(tr.a['href'])),
               'is_playable': True,
-              'info': {'title': tr.a.string},
+              'info': {'title': tr.a.string.strip()},
              } for tr in trs]
-    return plugin.add_items(items)
+
+    sorted_items = sorted(items, key=operator.itemgetter('label'))
+    return sorted_items
 
 
 @plugin.route('/watch/<url>/')
