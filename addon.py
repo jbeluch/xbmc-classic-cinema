@@ -26,11 +26,16 @@ def full_url(path):
 @plugin.route('/')
 def show_browse_methods():
     '''Default view. Displays the different ways to browse the site.'''
+    movies = plugin.get_string(30100)
+    silent_films = plugin.get_string(30101)
+    serials = plugin.get_string(30102)
+
     items = [
-        {'label': 'Movies', 'path': plugin.url_for('show_movie_genres')},
-        {'label': 'Silent Films', 'path': plugin.url_for('show_silent_genres')},
-        {'label': 'Serials', 'path': plugin.url_for('show_serials')},
+        {'label': movies, 'path': plugin.url_for('show_movie_genres')},
+        {'label': silent_films, 'path': plugin.url_for('show_silent_genres')},
+        {'label': serials, 'path': plugin.url_for('show_serials')},
     ]
+
     return items
 
 

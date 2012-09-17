@@ -5,4 +5,7 @@
   <string id="30011">UNKNOWN TITLE</string>
   <string id="30012">This video is not currently supported.</string>
   <string id="30013">Error getting video from Google Video.</string>
+  <string id="30100">Movies</string>
+  <string id="30101">Silent Films</string>
+  <string id="30102">Serials</string>
 </strings>
